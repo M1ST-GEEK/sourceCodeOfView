@@ -1,0 +1,63 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery彩色碎纸屑元素飘飞动画特效</title>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<link type="text/css" href="css/style.css" rel="stylesheet" />
+
+</head>
+<body>
+
+<div id="scene">
+  <div id="emitter"></div>
+</div>
+
+<script type="text/javascript">
+var $emitter = $('#emitter'),
+    emitEvery = 50, //每发射一次新粒子
+    removeAfter = 1000; //去除颗粒
+
+function create() {
+  
+  //创建粒子和随机值
+  var $particle = $('<div class="particle" />'),
+      x = Math.randMinMax(-200, 200),
+      y = Math.randMinMax(-200, 50),
+      z = Math.randMinMax(-200, 200),
+      degree = Math.randMinMax(0, 360),
+      color = 'hsla(' + Math.randMinMax(200, 320) + ', 80%, 60%, 1)';
+  
+  //将粒子附加到DOM
+  $particle.css('background', color);            
+  $emitter.append( $particle );
+  
+  //设置CSS3转换动画。如果没有超时，我们将看不到转换动画
+  window.setTimeout(function() {
+    $particle.css({
+      webkitTransform: 'translateX(' + x + 'px) translateY(' + y + 'px) translateZ(' + z + 'px) rotateX(' + degree + 'deg)',
+      opacity: 0
+    }); 
+  }, 50);
+  
+  //移除当前粒子
+  window.setTimeout(function() {
+    $particle.remove();
+  }, removeAfter);
+  
+  //创建下一个粒子
+  window.setTimeout(create, emitEvery); 
+  
+}
+
+Math.randMinMax=function(t,n,a){var r=t+Math.random()*(n-t)
+return a&&(r=Math.round(r)),r}
+
+//创建执行第一个粒子
+create();
+</script>
+
+</body>
+</html>
